@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./../imagenes/espiral90.jpg">
+    <title>Interactividad | Proyecto Matemático</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9; /* Fondo de página claro */
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 16px;
+        }
+
+        .top, .intros {
+            border-radius: 10px;
+            margin: 30px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            height: 50px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .top h2 {
+            font-size: 20px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .intros input {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .intros button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .intros button:hover {
+            background-color: #0056b3;
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .box {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .box-top {
+            height: 77px;
+            background: linear-gradient(to bottom, #007bff, #004a99);
+        }
+
+        .box-bottom {
+            width: 100%;
+            height: 2000px;
+            overflow: hidden;
+            background-color: #fafafa;
+        }
+
+        #svg-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .flex{
+            display: flex;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        footer p {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1><a href="./../paginas/index.html">Mates Interactivas</a></h1>
+        <nav>
+            <a href="./../paginas/documentacion.html">Documentación</a>
+            <a href="./../paginas/triangulos.html">Triángulos</a>
+            <a href="./../paginas/paralelogramos.html">Paralelogramos</a>
+        </nav>
+    </header>
+
+
+
+    <div class="top">
+        <h2>Construcción con Triángulos</h2>
+    </div>
+
+    <div class="flex">
+        <div class="intros">
+            <p>Introduzca un ángulo en grados sexagesimales (0º, 180º)</p>
+            <input type="number" id="angulo" placeholder="Ángulo x"> 
+            <button onclick="miFuncion()">Enviar</button>
+            <button onclick="descargarSVG()">Descargar SVG</button>
+        </div>
+        <div class="intros">
+            <p>Introduzca el número de puntas de la figura que desea</p>
+            <input type="number" id="puntas" placeholder="p(x) = ?"> 
+            <button onclick="calcularPInverse()">Dame una x!</button>
+            <span id="resultado"></span> 
+        </div>
+        
+    
+    </div>
+    
+
+    <section class="info">
+        <div class="box" id="dibujos">
+            <div class="box-top"></div>
+            <div class="box-bottom">
+                <svg id="svg-container"></svg>
+            </div>
+        </div>
+    </section>
+
+    <h3>Gráfico</h3>
+    <canvas id="grafico"></canvas>
+
+    <footer>
+        <a href="#">Contacto</a>
+        <p>Aidan Lorenzo 2024</p>
+    </footer>
+
+    <script>
+        // Función para convertir grados a radianes
+        function degToRad(degrees) {
+            return degrees * Math.PI / 180;
+        }
+
+        function mcd(a,b) {
+    
+    let arr = [[a,b]]
+    let qArr = []
+    let xArr = [1,0]
+    let yArr = [0,1]
+
+    let i = 1
+
+    while(arr[i-1][1] > 0){        
+        
+        let nextA = arr[i-1][1]
+        let nextB = arr[i-1][0] % arr[i-1][1]
+
+        arr.push([nextA, nextB])
+        i++
+
+    }
+    
+    return arr[arr.length - 1][0]
+
+}
+
+        // Función recursiva que calcula el valor de c
+        function c(i, x) {
+            if (i == 0) {
+                return 1;
+            }
+            let previous = c(i - 1, x);
+            return Math.sqrt(1 + previous ** 2 - 2 * previous * Math.cos(x));
+        }
+
+        function pInverse(p){
+            let n;
+            if (p % 2 !== 0){
+                n = 2*p
+            } else if (p % 4 == 0){
+                n = p
+            } else{
+                n = p/2
+            }
+
+            let randM = parseInt((Math.random()/2)*n)
+
+            while (mcd(randM, n) > 1){
+                randM = parseInt((Math.random()+1)*(n/4 ))
+            }
+
+            return `x = ${(randM/n)*180}`
+        }
+
+        // Función para dibujar la formación de triángulos
+        async function drawTriangleFormation(containerID, x, k, delay, sideLength) {
+            const container = document.getElementById(containerID);
+            container.innerHTML = ""; // Limpiar el contenedor
+            
+            // Coordenadas del vértice izquierdo A inicial
+            let ax = parseInt(c(100, (x / 180) * Math.PI)) * sideLength;
+            let ay = 500;
+
+            // Coordenadas del vértice derecho B inicial
+            let bx = ax + sideLength;
+            let by = ay;
+
+            // Crear un elemento SVG
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+
+            for (let i = 0; i < k; i++) {
+                // Calcular las coordenadas de C
+                const dx = bx - ax; // Componente en x de AB
+                const dy = by - ay; // Componente en y de AB
+
+                // Calcular las componentes de u (vector unitario)
+                const uLength = Math.sqrt(dx * dx + dy * dy);
+                const ux = dx / uLength;
+                const uy = dy / uLength;
+
+                // Calcular las componentes de v (vector rotado x grados)
+                const vx = ux * Math.cos(degToRad(x)) - uy * Math.sin(degToRad(x));
+                const vy = ux * Math.sin(degToRad(x)) + uy * Math.cos(degToRad(x));
+
+                // Calcular las coordenadas de C
+                const cx = ax + sideLength * vx;
+                const cy = ay + sideLength * vy;
+
+                // Crear los puntos del triángulo
+                const points = `${ax},${ay} ${bx},${by} ${cx},${cy}`;
+                const triangle = createTriangle(points);
+
+                // Añadir el triángulo al SVG
+                svg.appendChild(triangle);
+
+                // Actualizar las coordenadas de A y B para la próxima iteración
+                ax = cx;
+                ay = cy;
+
+                // Esperar el tiempo especificado antes de continuar
+                await new Promise(resolve => setTimeout(resolve, delay));
+
+                
+            // Agregar el SVG al contenedor
+            container.appendChild(svg);
+            }
+
+        }
+
+        // Función para crear un triángulo en SVG
+        function createTriangle(points) {
+            const triangle = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            triangle.setAttribute("points", points);
+            triangle.setAttribute("fill", "none");
+            triangle.setAttribute("stroke", "black");
+            triangle.setAttribute("stroke-width", "1");
+
+            return triangle;
+        }
+
+        // Función para generar el gráfico
+        function dibujarGrafico(angle, n) {
+            let angulos2 = [];
+            for (let i = 0; i <= n; i++) {
+                angulos2.push(i);
+            }
+
+            const valoresC = angulos2.map((el) => c(el, (angle / 180) * Math.PI));
+
+            // Obtener una referencia al elemento canvas del DOM
+            const $grafica2 = document.querySelector("#grafico");
+
+            // Datos del gráfico
+            const datosDeC = {
+                label: `Valor de c con x=${angle}º`,
+                data: valoresC,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+            };
+
+            // Crear el gráfico
+            new Chart($grafica2, {
+                type: 'line',
+                data: {
+                    labels: angulos2,
+                    datasets: [datosDeC],
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                    },
+                }
+            });
+        }
+
+        // Función para manejar el evento de clic en el botón "Dame una x!"
+function calcularPInverse() {
+    const p = parseInt(document.getElementById("puntas").value); // Obtener el valor de p
+    const resultado = pInverse(p); // Llamar a pInverse con el valor de p
+    document.getElementById("resultado").textContent = resultado; // Mostrar el resultado
+}
+
+
+        // Función para manejar el evento de clic en "Enviar"
+        function miFuncion() {
+            let angle = document.getElementById("angulo").value;
+            let big;
+
+            if (angle <= 60) {
+                big = 500;
+            } else if (angle < 80) {
+                big = 150;
+            } else if (angle < 90) {
+                big = 75;
+            } else {
+                big = 30;
+            }
+
+            drawTriangleFormation("svg-container", -angle, 500, 100, big);
+            dibujarGrafico(angle, 100);
+        }
+
+        // Función para descargar el SVG
+        function descargarSVG() {
+            const svgContent = document.getElementById("svg-container").innerHTML;
+
+            const svgWrapper = `
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">
+                    ${svgContent}
+                </svg>
+            `;
+
+            const blob = new Blob([svgWrapper], { type: "image/svg+xml;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "T.svg";
+            link.click();
+
+            URL.revokeObjectURL(url);
+        }
+
+    </script>
+</body>
+</html>
