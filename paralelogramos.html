@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./espiral90.jpg">
+    <link rel="icon" type="image/x-icon" href="./../imagenes/espiral90.jpg">
     <title>Interactividad | Proyecto Matemático</title>
     <style>
         body {
@@ -49,13 +49,12 @@
             font-size: 16px;
         }
     
-        .top, .intros {
+        .top {
             border-radius: 10px;
             margin: 30px auto;
             padding: 20px;
             width: 90%;
-            max-width: 600px;
-            height: 50px;
+            max-width: 500px;
             background-color: #ffffff;
             border: 1px solid #ddd;
             display: flex;
@@ -70,21 +69,46 @@
             font-weight: bold;
         }
     
+        .intros {
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px; /* Ajustar el ancho */
+            background-color: #ffffff; /* Fondo blanco */
+            border: 1px solid #ddd; /* Borde suave */
+            display: flex;
+            flex-direction: column; /* Alineación vertical */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+            gap: 10px; /* Separación entre elementos */
+        }
+    
         .intros input {
+            width: 80%; /* Ancho ajustado */
             padding: 10px;
             font-size: 16px;
-            margin-right: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
     
+        .intros p {
+            margin: 0;
+            font-size: 14px; /* Tamaño de texto más pequeño */
+            text-align: center; /* Centrar el texto */
+        }
+    
         .intros button {
+            width: auto;
             padding: 10px 20px;
+            font-size: 14px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
     
         .intros button:hover {
@@ -99,6 +123,7 @@
             border-radius: 10px;
             background-color: white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
         }
     
         .box {
@@ -137,10 +162,6 @@
             text-decoration: none;
             font-size: 16px;
         }
-
-        .flex {
-            display: flex;
-        }
     
         footer a:hover {
             text-decoration: underline;
@@ -150,12 +171,21 @@
             font-size: 14px;
             margin-top: 10px;
         }
+    
+        .flex {
+            display: flex;
+            flex-wrap: wrap; /* Hacer que los elementos se acomoden en varias filas */
+            justify-content: center; /* Centrar los elementos */
+            gap: 20px; /* Separación entre los elementos */
+            padding: 20px;
+        }
     </style>
     
 </head>
 <body>
     <header>
         <h1><a href="./index.html">Mates Interactivas</a></h1>
+        <h2>Construcción con Paralelogramos</h2>
         <nav>
             <a href="./documentacion.html">Documentación</a>
             <a href="./triangulos.html">Triángulos</a>
@@ -163,20 +193,18 @@
         </nav>
     </header>
     
-    <div class="top">
-        <h2>Construcción con Paralelogramos</h2></p>
-    </div>
 <div class="flex">
-    <div class="intros">
-        <input type="number" id="angulo" placeholder="Ángulo de formación"> 
-        <button onclick="miFuncionP()">Enviar</button>
-        <button onclick="descargarSVGP()">Descargar SVG</button>
-    </div>
     <div class="intros">
         <p>Introduzca el número de puntas de la figura que desea</p>
         <input type="number" id="puntas" placeholder="q(x) = ?"> 
         <button onclick="calcularQInverse()">Dame una x!</button>
         <span id="resultado"></span> 
+    </div>
+    <div class="intros">
+        <p>Introduzca un ángulo en grados sexagesimales (0º, 180º)</p>
+        <input type="number" id="angulo" placeholder="Ángulo de formación"> 
+        <button onclick="miFuncionP()">Enviar</button>
+        <button onclick="descargarSVGP()">Descargar SVG</button>
     </div>
     
 
