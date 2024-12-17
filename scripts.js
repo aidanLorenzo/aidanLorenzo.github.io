@@ -22,22 +22,22 @@
         function k(x, y){
 
             let sum = 0
-            let i = 1
+            let intK = 1
         
             while (sum < y){
                 
-                sum += a(i, x)
-                if (sum+a(i+1,x) > y){
-                    let p = (y-sum)/(a(i+1,x)) 
-                    return i + p
+                sum += a(intK, x)
+                if (sum+a(intK+1,x) > y){
+                    let d = (y-sum)/(a(i+1,x)) 
+                    return intK + d
                 }
-                i++
+                intK++
             }
         }
 
         function numOfSolutions(a,b,y){
-            let aK = f(degToRad(a), degToRad(y))
-            let bK = f(degToRad(b), degToRad(y))
+            let aK = k(degToRad(a), degToRad(y))
+            let bK = k(degToRad(b), degToRad(y))
             return parseInt(bK) - parseInt(aK)
         }
 
@@ -49,10 +49,10 @@
             //Process
         
             let half = (min+max)/2
-            let halfK = f(degToRad(half), degToRad(y))
+            let halfK = k(degToRad(half), degToRad(y))
             let solutions = []
-            const firstK = Math.ceil(f(degToRad(minimum), degToRad(y)))
-            const lastK = Math.floor(f(degToRad(maximum), degToRad(y)))
+            const firstK = Math.ceil(k(degToRad(minimum), degToRad(y)))
+            const lastK = Math.floor(k(degToRad(maximum), degToRad(y)))
         
             for (let k = firstK; k <= lastK; k++) {
                 
@@ -66,14 +66,14 @@
                     half = (half+max)/2
                 }
         
-                halfK = f(degToRad(half), degToRad(y))
+                halfK = k(degToRad(half), degToRad(y))
     
                 //Searching ONE solution inside AN interval
         
                 while (Math.abs(k-halfK) > 0.0000001) {
         
                     half = (min+max)/2  
-                    halfK = f(degToRad(half), degToRad(y))
+                    halfK = k(degToRad(half), degToRad(y))
         
                     if (halfK > k){
                         max = half
@@ -214,16 +214,16 @@
             }
         }
 
-        function dibujarGrafico(angle, n) {
+        function dibujarGrafico(x, n) {
 
-            let angulos2 = [];
+            let X = [];
             for (let i = 0; i <= n; i++) {
-                angulos2.push(i);
+                X.push(i);
             }
 
             const valoresC = angulos2.map((el) => c(el, (angle / 180) * Math.PI));
             const $grafico = document.querySelector("#grafico");
-            const datosDeC = {
+            const datosC = {
                 label: `Valor de c con x=${angle}º`,
                 data: valoresC,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -234,8 +234,8 @@
             new Chart($grafico, {
                 type: 'line',
                 data: {
-                    labels: angulos2,
-                    datasets: [datosDeC],
+                    labels: X,
+                    datasets: [datosC],
                 },
                 options: {
                     scales: {
@@ -256,17 +256,17 @@
         }
 
         function miFuncionT() {
-            let angle = document.getElementById("angulo").value;
+            let x = document.getElementById("angulo").value;
             let tam;
 
-            if(angle > 0){tam = 400}
-            if (angle > 45){tam=200}
-            if(angle > 70){tam=150}
-            if(angle > 79){tam=80}
-            if(angle > 90){tam = 40}
+            if(x > 0){tam = 400}
+            if (x > 45){tam=200}
+            if(x > 70){tam=150}
+            if(x > 79){tam=80}
+            if(x > 90){tam = 40}
 
-            drawTriangleFormation("svg-container", -angle, 2100, 180, tam);
-            dibujarGrafico(angle, 200);
+            drawTriangleFormation("svg-container", -x, 2100, 180, tam);
+            dibujarGrafico(x, 200);
         }
 
         function descargarSVGT() {
@@ -358,8 +358,8 @@
     
         function miFuncionP() {
 
-            let angle = document.getElementById("angulo").value;
-            drawParallelogramFormation("svg-container", -angle, 200, 100, 150);
+            let x = document.getElementById("angulo").value;
+            drawParallelogramFormation("svg-container", -x, 200, 100, 150);
 
         }
 
