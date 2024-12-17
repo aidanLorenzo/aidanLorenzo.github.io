@@ -22,74 +22,17 @@
         function k(x, y){
 
             let sum = 0
-            let intK = 1
+            let i = 1
         
             while (sum < y){
                 
-                sum += a(intK, x)
-                if (sum+a(intK+1,x) > y){
-                    let d = (y-sum)/(a(i+1,x)) 
-                    return intK + d
+                sum += a(i, x)
+                if (sum+a(i+1,x) > y){
+                    let p = (y-sum)/(a(i+1,x)) 
+                    return i + p
                 }
-                intK++
+                i++
             }
-        }
-
-        function numOfSolutions(a,b,y){
-            let aK = k(degToRad(a), degToRad(y))
-            let bK = k(degToRad(b), degToRad(y))
-            return parseInt(bK) - parseInt(aK)
-        }
-
-        function searchAngles(min, max, y){
-        
-            const minimum = min
-            const maximum = max
-        
-            //Process
-        
-            let half = (min+max)/2
-            let halfK = k(degToRad(half), degToRad(y))
-            let solutions = []
-            const firstK = Math.ceil(k(degToRad(minimum), degToRad(y)))
-            const lastK = Math.floor(k(degToRad(maximum), degToRad(y)))
-        
-            for (let k = firstK; k <= lastK; k++) {
-                
-                //Enclosing an interval where there is known to be only one solution
-        
-                while (numOfSolutions(min, half,y) > 1){
-                    half = (min + half)/2
-                }
-        
-                while (numOfSolutions(min, half,y) === 0) {
-                    half = (half+max)/2
-                }
-        
-                halfK = k(degToRad(half), degToRad(y))
-    
-                //Searching ONE solution inside AN interval
-        
-                while (Math.abs(k-halfK) > 0.0000001) {
-        
-                    half = (min+max)/2  
-                    halfK = k(degToRad(half), degToRad(y))
-        
-                    if (halfK > k){
-                        max = half
-                    } else if (halfK < k){
-                        min = half
-                        } 
-                    
-                }
-            
-                min = half
-                max = maximum
-        
-                solutions.push({half, k})       
-            }
-        
-            return solutions
         }
 
         function mcd(a,b) {
@@ -214,16 +157,16 @@
             }
         }
 
-        function dibujarGrafico(x, n) {
+        function dibujarGrafico(angle, n) {
 
-            let X = [];
+            let angulos2 = [];
             for (let i = 0; i <= n; i++) {
-                X.push(i);
+                angulos2.push(i);
             }
 
             const valoresC = angulos2.map((el) => c(el, (angle / 180) * Math.PI));
             const $grafico = document.querySelector("#grafico");
-            const datosC = {
+            const datosDeC = {
                 label: `Valor de c con x=${angle}º`,
                 data: valoresC,
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -234,8 +177,8 @@
             new Chart($grafico, {
                 type: 'line',
                 data: {
-                    labels: X,
-                    datasets: [datosC],
+                    labels: angulos2,
+                    datasets: [datosDeC],
                 },
                 options: {
                     scales: {
@@ -256,17 +199,17 @@
         }
 
         function miFuncionT() {
-            let x = document.getElementById("angulo").value;
+            let angle = document.getElementById("angulo").value;
             let tam;
 
-            if(x > 0){tam = 400}
-            if (x > 45){tam=200}
-            if(x > 70){tam=150}
-            if(x > 79){tam=80}
-            if(x > 90){tam = 40}
+            if(angle > 0){tam = 400}
+            if (angle > 45){tam=200}
+            if(angle > 70){tam=150}
+            if(angle > 79){tam=80}
+            if(angle > 90){tam = 40}
 
-            drawTriangleFormation("svg-container", -x, 2100, 180, tam);
-            dibujarGrafico(x, 200);
+            drawTriangleFormation("svg-container", -angle, 2100, 180, tam);
+            dibujarGrafico(angle, 100);
         }
 
         function descargarSVGT() {
@@ -358,8 +301,8 @@
     
         function miFuncionP() {
 
-            let x = document.getElementById("angulo").value;
-            drawParallelogramFormation("svg-container", -x, 200, 100, 150);
+            let angle = document.getElementById("angulo").value;
+            drawParallelogramFormation("svg-container", -angle, 200, 100, 150);
 
         }
 
