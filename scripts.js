@@ -55,7 +55,7 @@
             const firstK = Math.ceil(k(degToRad(minimum), degToRad(y)))
             const lastK = Math.floor(k(degToRad(maximum), degToRad(y)))
         
-            for (let k = firstK; k <= lastK; k++) {
+            for (let i = firstK; i <= lastK; i++) {
                 
                 //Enclosing an interval where there is known to be only one solution
         
@@ -71,14 +71,14 @@
         
                 //Searching ONE solution inside AN interval
         
-                while (Math.abs(k-halfK) > 0.0000001) {
+                while (Math.abs(i-halfK) > 0.0000001) {
         
                     half = (min+max)/2  
                     halfK = k(degToRad(half), degToRad(y))
         
-                    if (halfK > k){
+                    if (halfK > i){
                         max = half
-                    } else if (halfK < k){
+                    } else if (halfK < i){
                         min = half
                         } 
                     
@@ -87,7 +87,7 @@
                 min = half
                 max = maximum
         
-                solutions.push({half, k})       
+                solutions.push({half, i})       
             }
         
             return solutions
